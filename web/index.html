@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CVPR‑4D 实验日志</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20width%3D%2264%22%20height%3D%2264%22%3E%20%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%23202124%22%2F%3E%20%3Cpolygon%20points%3D%2210%2C40%2021%2C34.5%2032%2C40%2021%2C45.5%22%20fill%3D%22%234285F4%22%2F%3E%20%3Cpolygon%20points%3D%2210%2C40%2021%2C45.5%2021%2C58%2010%2C52.5%22%20fill%3D%22none%22%20stroke%3D%22%234285F4%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%20%3Cpolygon%20points%3D%2221%2C45.5%2032%2C40%2032%2C52.5%2021%2C58%22%20fill%3D%22none%22%20stroke%3D%22%234285F4%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%20%3Cpolygon%20points%3D%2210%2C40%2021%2C34.5%2032%2C40%2021%2C45.5%22%20fill%3D%22none%22%20stroke%3D%22%234285F4%22%20stroke-width%3D%222%22%20stroke-linejoin%3D%22round%22%2F%3E%20%3Cline%20x1%3D%2245%22%20y1%3D%2210.5%22%20x2%3D%2245%22%20y2%3D%226.5%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Ccircle%20cx%3D%2245%22%20cy%3D%225%22%20r%3D%222%22%20fill%3D%22%23FBBC04%22%2F%3E%20%3Crect%20x%3D%2235%22%20y%3D%2210%22%20width%3D%2220%22%20height%3D%2215%22%20rx%3D%226%22%20fill%3D%22%23FFFFFF%22%2F%3E%20%3Ccircle%20cx%3D%2241%22%20cy%3D%2217.5%22%20r%3D%222.1%22%20fill%3D%22%23202124%22%2F%3E%20%3Ccircle%20cx%3D%2249%22%20cy%3D%2217.5%22%20r%3D%222.1%22%20fill%3D%22%23202124%22%2F%3E%20%3Crect%20x%3D%2237.5%22%20y%3D%2227%22%20width%3D%2215%22%20height%3D%2213%22%20rx%3D%225.5%22%20fill%3D%22%23FFFFFF%22%2F%3E%20%3Cline%20x1%3D%2238%22%20y1%3D%2231%22%20x2%3D%2234.5%22%20y2%3D%2230%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Cline%20x1%3D%2235%22%20y1%3D%2229.5%22%20x2%3D%2225.5%22%20y2%3D%2239%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%20%3Ccircle%20cx%3D%2235%22%20cy%3D%2230%22%20r%3D%222.8%22%20fill%3D%22%23FFFFFF%22%2F%3E%20%3Cpolygon%20points%3D%2227%2C40.5%2024%2C37.5%2018%2C43.5%22%20fill%3D%22%23FBBC04%22%2F%3E%20%3Cpath%20d%3D%22M17%2044%20Q%2015%2047%2016.5%2049%22%20fill%3D%22none%22%20stroke%3D%22%23FBBC04%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.9%22%2F%3E%20%3C%2Fsvg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#F8F9FA;--panel:#FFFFFF;--ink:#202124;--muted:#5F6368;--muted-2:#80868B;--rule:rgba(32,34,36,.12);--blue:#4285F4;--blue-deep:#1A73E8;--bad:#C5221F;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font-family:"Google Sans Flex","Google Sans","PingFang SC","Helvetica Neue",Arial,"Noto Sans SC",system-ui,sans-serif;font-optical-sizing:auto;padding-inline:16px;padding-block:24px}
+.gate{width:min(100%,400px);background:var(--panel);border:1px solid var(--rule);border-radius:20px;padding:30px 28px 24px;box-shadow:0 1px 2px rgba(16,18,24,.04),0 16px 48px rgba(0,0,0,.08)}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.brand svg{width:34px;height:34px;border-radius:8px}
+.wm{font-weight:700;font-size:20px;letter-spacing:-.02em;display:inline-flex;line-height:1;color:#202124}
+.eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:8px}
+h1{font-size:22px;margin:0 0 6px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+p{margin:0 0 20px;font-size:14px;color:var(--muted);line-height:1.6}
+label{display:block;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2);margin-bottom:6px}
+input{width:100%;font:inherit;font-size:15px;padding:11px 14px;border:1px solid var(--rule);border-radius:12px;background:var(--bg);color:var(--ink)}
+input:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+button{margin-top:12px;width:100%;font:inherit;font-weight:600;font-size:14.5px;padding:11px 14px;border:0;border-radius:9999px;background:var(--blue);color:#fff;cursor:pointer}
+button:hover{background:var(--blue-deep)}
+button[disabled]{opacity:.6;cursor:progress}
+.err{margin-top:10px;font-size:13px;color:var(--bad);min-height:1.2em}
+small{display:block;margin-top:14px;font-size:12px;color:var(--muted-2);line-height:1.5}
+</style>
+</head>
+<body>
+<form class="gate" id="gate">
+  <div class="brand"><svg viewBox="0 0 64 64" aria-hidden="true">
+  <!-- 深色圆角底：和首屏封面卡同色 -->
+  <rect x="0" y="0" width="64" height="64" rx="14" fill="#202124"/>
+  <!-- 被画出来的世界：一个方块，只有顶面被"画"上了颜色，其余还是线框 -->
+  <polygon points="10,40 21,34.5 32,40 21,45.5" fill="#4285F4"/>
+  <polygon points="10,40 21,45.5 21,58 10,52.5" fill="none" stroke="#4285F4" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="21,45.5 32,40 32,52.5 21,58" fill="none" stroke="#4285F4" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="10,40 21,34.5 32,40 21,45.5" fill="none" stroke="#4285F4" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Agent：圆头小机器人，悬浮着 -->
+  <line x1="45" y1="10.5" x2="45" y2="6.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="45" cy="5" r="2" fill="#FBBC04"/>
+  <rect x="35" y="10" width="20" height="15" rx="6" fill="#FFFFFF"/>
+  <circle cx="41" cy="17.5" r="2.1" fill="#202124"/>
+  <circle cx="49" cy="17.5" r="2.1" fill="#202124"/>
+  <rect x="37.5" y="27" width="15" height="13" rx="5.5" fill="#FFFFFF"/>
+  <!-- 手臂 + 画笔：从身体伸出去，笔尖点在方块顶面上 -->
+  <line x1="38" y1="31" x2="34.5" y2="30" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"/>
+  <line x1="35" y1="29.5" x2="25.5" y2="39" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="35" cy="30" r="2.8" fill="#FFFFFF"/>
+  <polygon points="27,40.5 24,37.5 18,43.5" fill="#FBBC04"/>
+  <!-- 笔迹：一小段刚落下的颜色 -->
+  <path d="M17 44 Q 15 47 16.5 49" fill="none" stroke="#FBBC04" stroke-width="1.6" stroke-linecap="round" opacity=".9"/>
+</svg><span class="wm">CVPR‑4D</span></div>
+  <div class="eyebrow">Research log · 需要口令</div>
+  <h1>实验日志</h1>
+  <p>页面内容已加密，输入口令后在你的浏览器里解开。</p>
+  <label for="pw">口令</label>
+  <input id="pw" type="password" autocomplete="current-password" autofocus>
+  <button id="go" type="submit">进入</button>
+  <div class="err" id="err" role="alert"></div>
+  <small>这台浏览器会记住口令，下次直接进入。</small>
+</form>
+<script>
+(function(){
+  var P={"salt":"4ZJziCB56H2ZvOyi+7JrCA==","iter":300000,"url":"chunks/a3b43fdf51622b7aea97e56b92d166ffabc858f7115f467bb35d884ab092e69b.enc","type":"text/html;charset=utf-8","encoding":"gzip"};
+  var KEY="cvpr4d-board-pw";
+  var $=function(id){return document.getElementById(id)};
+  var b=function(s){return Uint8Array.from(atob(s),function(c){return c.charCodeAt(0)})};
+  function problem(kind,message){var e=new Error(message);e.kind=kind;return e}
+  async function open(pw){
+    if(!window.crypto||!crypto.subtle)throw problem("browser","这个浏览器不支持解密（需要 https）。");
+    if(typeof DecompressionStream==="undefined")throw problem("browser","请使用支持解压缩的新版浏览器打开。");
+    var base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);
+    var key=await crypto.subtle.deriveKey({name:"PBKDF2",salt:b(P.salt),iterations:P.iter,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+    var response;
+    try{response=await fetch(P.url,{cache:"force-cache"})}catch(e){throw problem("network","页面暂时加载失败，请检查网络后重试。")}
+    if(!response.ok)throw problem("network","页面加载失败（HTTP "+response.status+"），请稍后重试。");
+    var bytes;
+    try{bytes=new Uint8Array(await response.arrayBuffer())}catch(e){throw problem("network","页面下载中断，请重试。")}
+    if(bytes.length<29)throw problem("network","页面下载不完整，请重试。");
+    var compressed;
+    try{compressed=await crypto.subtle.decrypt({name:"AES-GCM",iv:bytes.slice(0,12)},key,bytes.slice(12))}
+    catch(e){throw problem("auth","口令不对，或加密页面已损坏。")}
+    var html;
+    try{
+      var stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream("gzip"));
+      html=new TextDecoder("utf-8",{fatal:true}).decode(await new Response(stream).arrayBuffer());
+    }catch(e){throw problem("decode","页面解压失败，请刷新后重试。")}
+    window.__cvpr4dKey=key;
+    return html;
+  }
+  async function enter(pw,remember){
+    $("go").disabled=true;$("go").textContent="正在加载…";$("err").textContent="";
+    try{
+      var html=await open(pw);
+      if(remember){try{localStorage.setItem(KEY,pw)}catch(e){}}
+      document.open();document.write(html);document.close();
+    }catch(e){
+      $("go").disabled=false;$("go").textContent="进入";
+      $("err").textContent=e.message||"页面加载失败，请重试。";
+      if(e.kind==="auth"){try{localStorage.removeItem(KEY)}catch(ignore){}$("pw").select()}
+    }
+  }
+  $("gate").addEventListener("submit",function(e){e.preventDefault();enter($("pw").value,true)});
+  try{var saved=localStorage.getItem(KEY);if(saved)enter(saved,false)}catch(e){}
+})();
+</script>
+</body>
+</html>

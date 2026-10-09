@@ -1,0 +1,55 @@
+name: Publish lightweight board
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+      - '.github/workflows/publish-light.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout lightweight site only
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /web/
+          persist-credentials: false
+      - name: Check publish boundary
+        run: |
+          test -f web/index.html
+          test ! -d web/media
+          test ! -d media
+          python3 - <<'PYBOUND'
+          from pathlib import Path
+          root=Path('web')
+          files=[p for p in root.rglob('*') if p.is_file()]
+          total=sum(p.stat().st_size for p in files)
+          assert total < 50_000_000, f'Unexpectedly heavy release: {total} bytes'
+          allowed={'.enc','.html','.js','.map'}
+          for p in files:
+              assert p.name=='.nojekyll' or p.suffix in allowed, f'Unexpected public file: {p}'
+          print(f'Lightweight release: {len(files)} files, {total} bytes; no media directory')
+          PYBOUND
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload lightweight artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
